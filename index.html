@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biosystematics & Evolutionary Biology — MCQ Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #2d3748;
+    --accent: #e6a817;
+    --accent2: #3ecf8e;
+    --accent3: #7c6af7;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --correct: #3ecf8e;
+    --wrong: #f56565;
+    --highlight: #e6a81722;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, #7c6af71a 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, #e6a81712 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, #3ecf8e08 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .dna-bg {
+    position: fixed;
+    top: 0; right: -100px;
+    width: 200px;
+    height: 100vh;
+    opacity: 0.04;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    position: relative;
+    z-index: 10;
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #0d1117 0%, transparent 100%);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent)18;
+    border: 1px solid var(--accent)44;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  .badge::before {
+    content: '◆';
+    font-size: 8px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  h1 span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    margin-bottom: 36px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-val.green { color: var(--accent2); }
+  .stat-val.purple { color: var(--accent3); }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* Scoreboard */
+  .scoreboard {
+    position: relative;
+    z-index: 10;
+    margin: 32px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .score-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 160px;
+  }
+
+  .score-display span {
+    font-size: 24px;
+    color: var(--muted);
+  }
+
+  .progress-section { flex: 1; min-width: 200px; }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .progress-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .mini-stats {
+    display: flex;
+    gap: 20px;
+  }
+
+  .mini-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .dot.c { background: var(--correct); }
+  .dot.w { background: var(--wrong); }
+  .dot.s { background: var(--muted); }
+
+  /* Controls */
+  .controls {
+    position: relative;
+    z-index: 10;
+    padding: 0 40px 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent)10;
+  }
+
+  .filter-btn.active { font-weight: 600; }
+
+  .btn-reset {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 8px 20px;
+    border: 1px solid var(--wrong)44;
+    background: transparent;
+    color: var(--wrong);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-reset:hover {
+    background: var(--wrong)15;
+    border-color: var(--wrong);
+  }
+
+  /* Quiz area */
+  .quiz-area {
+    position: relative;
+    z-index: 10;
+    padding: 0 40px 60px;
+    max-width: 1000px;
+  }
+
+  .unit-section {
+    margin-bottom: 48px;
+  }
+
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .unit-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent)15;
+    border: 1px solid var(--accent)33;
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* Question card */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    animation: slideIn 0.4s ease both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-card:hover { border-color: var(--border); }
+  .q-card.answered-correct { border-color: var(--correct)55; }
+  .q-card.answered-wrong { border-color: var(--wrong)44; }
+
+  .q-head {
+    padding: 20px 24px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 32px;
+    padding-top: 2px;
+  }
+
+  .q-difficulty {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    margin-top: 1px;
+  }
+
+  .diff-H { background: #f5656518; color: #f56565; border: 1px solid #f5656530; }
+  .diff-M { background: #e6a81718; color: var(--accent); border: 1px solid #e6a81730; }
+  .diff-E { background: #3ecf8e18; color: var(--accent2); border: 1px solid #3ecf8e30; }
+
+  .q-text {
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 400;
+    flex: 1;
+    padding-top: 2px;
+  }
+
+  .q-text em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .options-grid {
+    padding: 16px 24px 20px 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .options-grid { grid-template-columns: 1fr; padding-left: 24px; }
+    .controls { padding: 0 20px 24px; }
+    .quiz-area { padding: 0 20px 60px; }
+    .header { padding: 40px 20px 30px; }
+    .scoreboard { margin: 20px; padding: 20px; }
+  }
+
+  .opt-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--accent)66;
+    background: var(--highlight);
+    color: var(--accent);
+  }
+
+  .opt-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    min-width: 18px;
+    padding-top: 1px;
+  }
+
+  .opt-btn.correct {
+    border-color: var(--correct);
+    background: var(--correct)18;
+    color: var(--correct);
+  }
+
+  .opt-btn.correct .opt-key { color: var(--correct); }
+
+  .opt-btn.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong)12;
+    color: var(--wrong);
+  }
+
+  .opt-btn.wrong .opt-key { color: var(--wrong); }
+
+  .opt-btn.dimmed {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .opt-btn:disabled { cursor: default; }
+
+  /* Explanation */
+  .explanation {
+    margin: 0 24px 20px 72px;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+
+  .explanation.show { display: block; animation: fadeIn 0.3s ease; }
+  .explanation strong { color: var(--accent2); font-style: normal; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Result banner */
+  .result-banner {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1000;
+    animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .result-banner.correct {
+    background: var(--correct)22;
+    border: 1px solid var(--correct);
+    color: var(--correct);
+  }
+
+  .result-banner.wrong {
+    background: var(--wrong)22;
+    border: 1px solid var(--wrong);
+    color: var(--wrong);
+  }
+
+  /* Final result modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0d111799;
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 48px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .modal-grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .modal-score-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .modal-msg {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .modal-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 14px 32px;
+    border: 1px solid var(--accent);
+    background: var(--accent)15;
+    color: var(--accent);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .modal-btn:hover { background: var(--accent)30; }
+
+  /* Footer */
+  .footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+</style>
+</head>
+<body>
+
+<!-- DNA Decoration -->
+<svg class="dna-bg" viewBox="0 0 100 800" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#7c6af7" stroke-width="1.5" fill="none">
+    <path d="M20,0 Q80,50 20,100 Q80,150 20,200 Q80,250 20,300 Q80,350 20,400 Q80,450 20,500 Q80,550 20,600 Q80,650 20,700 Q80,750 20,800"/>
+    <path d="M80,0 Q20,50 80,100 Q20,150 80,200 Q20,250 80,300 Q20,350 80,400 Q20,450 80,500 Q20,550 80,600 Q20,650 80,700 Q20,750 80,800"/>
+    <line x1="20" y1="50" x2="80" y2="50"/><line x1="20" y1="150" x2="80" y2="150"/>
+    <line x1="20" y1="250" x2="80" y2="250"/><line x1="20" y1="350" x2="80" y2="350"/>
+    <line x1="20" y1="450" x2="80" y2="450"/><line x1="20" y1="550" x2="80" y2="550"/>
+    <line x1="20" y1="650" x2="80" y2="650"/><line x1="20" y1="750" x2="80" y2="750"/>
+  </g>
+</svg>
+
+<!-- Header -->
+<div class="header">
+  <div class="badge">B.Sc. Biology · 2nd Semester · Zoology</div>
+  <h1>Biosystematics &amp;<br><span>Evolutionary Biology</span></h1>
+  <div class="subtitle">MCQ Question Bank — University Exam Preparation</div>
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-val" id="totalCount">60</div>
+      <div class="stat-label">Total Questions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val green">6</div>
+      <div class="stat-label">Topic Units</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val purple" id="attemptedStat">0</div>
+      <div class="stat-label">Attempted</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scoreboard -->
+<div class="scoreboard">
+  <div class="score-display" id="scoreDisplay">0<span>/60</span></div>
+  <div class="progress-section">
+    <div class="progress-label">
+      <span>Progress</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="mini-stats">
+      <div class="mini-stat"><div class="dot c"></div><span id="correctCount">0 Correct</span></div>
+      <div class="mini-stat"><div class="dot w"></div><span id="wrongCount">0 Wrong</span></div>
+      <div class="mini-stat"><div class="dot s"></div><span id="skipCount">60 Remaining</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="filter-btn active" onclick="filterDiff('all',this)">All</button>
+  <button class="filter-btn" onclick="filterDiff('E',this)">Easy</button>
+  <button class="filter-btn" onclick="filterDiff('M',this)">Medium</button>
+  <button class="filter-btn" onclick="filterDiff('H',this)">Hard</button>
+  <button class="btn-reset" onclick="resetAll()">↺ Reset All</button>
+</div>
+
+<!-- Result Banner -->
+<div class="result-banner" id="resultBanner"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-grade" id="modalGrade"></div>
+    <div class="modal-score-text" id="modalScoreText"></div>
+    <div class="modal-msg" id="modalMsg"></div>
+    <button class="modal-btn" onclick="document.getElementById('modalOverlay').classList.remove('show'); resetAll();">Try Again</button>
+  </div>
+</div>
+
+<!-- Quiz Area -->
+<div class="quiz-area" id="quizArea"></div>
+
+<div class="footer">
+  B.Sc. Biology 2nd Semester · Biosystematics &amp; Evolutionary Biology · MCQ Bank · 2024–25
+</div>
+
+<script>
+const questions = [
+  // ===== UNIT 1: TAXONOMY & BIOSYSTEMATICS =====
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"E",
+   q:"Who is known as the <em>'Father of Taxonomy'</em>?",
+   opts:["Charles Darwin","Carl Linnaeus","Ernst Mayr","Theodosius Dobzhansky"],
+   ans:1, exp:"Carl Linnaeus (1707–1778) developed binomial nomenclature and hierarchical classification, earning him the title 'Father of Taxonomy.'"},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"E",
+   q:"Binomial nomenclature consists of which two parts?",
+   opts:["Family and Genus","Genus and Species","Order and Family","Kingdom and Phylum"],
+   ans:1, exp:"Binomial nomenclature uses the Genus name (capitalized) followed by the species epithet (lowercase), e.g., Homo sapiens."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"M",
+   q:"The correct sequence of taxonomic hierarchy from highest to lowest is:",
+   opts:["Kingdom–Phylum–Class–Order–Family–Genus–Species","Kingdom–Class–Phylum–Order–Family–Genus–Species","Species–Genus–Family–Order–Class–Phylum–Kingdom","Phylum–Kingdom–Class–Family–Order–Genus–Species"],
+   ans:0, exp:"The seven obligatory taxonomic ranks in descending order: Kingdom → Phylum → Class → Order → Family → Genus → Species."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"M",
+   q:"The term <em>'Biosystematics'</em> was coined by:",
+   opts:["Ernst Mayr","Camp & Gilly","Charles Darwin","A.P. de Candolle"],
+   ans:1, exp:"Camp & Gilly coined 'Biosystematics' in 1943, emphasizing the study of organism variation and classification using biological data."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"E",
+   q:"The International Code of Zoological Nomenclature (ICZN) was first published in:",
+   opts:["1758","1842","1901","1961"],
+   ans:2, exp:"The ICZN rules were first formally codified in 1901, though the starting date for zoological nomenclature is set to Linnaeus's Systema Naturae (1758)."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"H",
+   q:"Which category in biosystematics represents a group of freely interbreeding populations sharing a common gene pool?",
+   opts:["Taxon","Deme","Coenospecia","Ecospecies"],
+   ans:1, exp:"A Deme is the smallest biosystematic unit — a local interbreeding population sharing a common gene pool. It is the equivalent of a local population."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"M",
+   q:"The <em>type specimen</em> that serves as the primary standard for a species name is called:",
+   opts:["Syntype","Holotype","Paratype","Lectotype"],
+   ans:1, exp:"The Holotype is the single specimen designated by the original author as the nomenclatural type upon which the species description is based."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"H",
+   q:"Numerical Taxonomy (Phenetics) was primarily developed by:",
+   opts:["Ernst Mayr & Dobzhansky","Sokal & Sneath","Hennig & Crowson","Simpson & Mayr"],
+   ans:1, exp:"Robert Sokal and Peter Sneath developed Numerical Taxonomy (1963), which classifies organisms based on overall phenotypic similarity using quantitative methods."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"M",
+   q:"Cladistics as a method of classification was introduced by:",
+   opts:["Robert Sokal","Peter Sneath","Willi Hennig","Ernst Haeckel"],
+   ans:2, exp:"Willi Hennig introduced cladistics in 1950 (Grundzüge einer Theorie der phylogenetischen Systematik), classifying organisms based on shared derived characters (synapomorphies)."},
+
+  {unit:1, unitTitle:"Taxonomy & Biosystematics", diff:"E",
+   q:"Which of the following is NOT a rule of binomial nomenclature?",
+   opts:["Names are in Latin or Latinized form","Genus name begins with a capital letter","Species name begins with a capital letter","Names are italicized when printed"],
+   ans:2, exp:"The species epithet (specific name) always begins with a lowercase letter. Only the genus name is capitalized."},
+
+  // ===== UNIT 2: SPECIES CONCEPTS =====
+  {unit:2, unitTitle:"Species Concepts", diff:"M",
+   q:"The <em>Biological Species Concept</em> was proposed by:",
+   opts:["Charles Darwin","Ernst Mayr","Theodosius Dobzhansky","G.G. Simpson"],
+   ans:1, exp:"Ernst Mayr (1942) defined species as 'groups of actually or potentially interbreeding natural populations, which are reproductively isolated from other such groups.'"},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"H",
+   q:"Which species concept defines species based on their occupation of a unique adaptive zone?",
+   opts:["Biological Species Concept","Ecological Species Concept","Morphological Species Concept","Phylogenetic Species Concept"],
+   ans:1, exp:"The Ecological Species Concept (Van Valen, 1976) defines a species as a lineage evolving separately from others and occupying a unique adaptive zone (niche)."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"M",
+   q:"A species that morphologically resembles another but is reproductively isolated is called:",
+   opts:["Subspecies","Sibling species","Ring species","Ecotype"],
+   ans:1, exp:"Sibling species (cryptic species) are morphologically identical or nearly identical but reproductively isolated due to behavioral, genetic, or other barriers."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"H",
+   q:"The <em>Ring Species</em> concept demonstrates:",
+   opts:["Allopatric speciation","Sympatric speciation","Gradual geographic variation leading to reproductive isolation","Polyploidy"],
+   ans:2, exp:"Ring species (e.g., Larus gulls) form a chain of interbreeding populations. Adjacent populations interbreed but the two end populations, which overlap geographically, are reproductively isolated, demonstrating gradual speciation."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"E",
+   q:"The smallest unit of evolution is:",
+   opts:["Individual","Species","Population","Gene"],
+   ans:2, exp:"The population is the smallest unit of evolution because evolution occurs through changes in allele frequencies within a population, not in individuals."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"M",
+   q:"Polytypic species refers to a species that:",
+   opts:["Has only one subspecies","Includes two or more subspecies","Reproduces asexually","Has multiple sex chromosomes"],
+   ans:1, exp:"A polytypic species includes two or more geographic races (subspecies) that differ morphologically but can interbreed where they meet."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"H",
+   q:"The Phylogenetic Species Concept (PSC) was proposed by:",
+   opts:["Ernst Mayr","Joel Cracraft","G.G. Simpson","Willi Hennig"],
+   ans:1, exp:"Joel Cracraft (1983) proposed the Phylogenetic Species Concept, defining a species as the smallest diagnosable cluster of individual organisms sharing a pattern of ancestry and descent."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"M",
+   q:"A population that is geographically separated from the main species but not yet reproductively isolated is called:",
+   opts:["Allopatric species","Geographic subspecies","Sympatric species","Sibling species"],
+   ans:1, exp:"A geographic subspecies (race) is a geographically isolated population with distinct characteristics but not yet reproductively isolated from the parent species."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"E",
+   q:"The term <em>'ecotype'</em> was coined by:",
+   opts:["Ernst Mayr","Göte Turesson","Dobzhansky","Clausen"],
+   ans:1, exp:"Göte Turesson coined 'ecotype' in 1922 to describe genetically distinct populations within a species adapted to particular local environments."},
+
+  {unit:2, unitTitle:"Species Concepts", diff:"H",
+   q:"Which of the following is an example of a pre-zygotic reproductive isolating mechanism?",
+   opts:["Hybrid sterility","Hybrid inviability","Hybrid breakdown","Habitat isolation"],
+   ans:3, exp:"Pre-zygotic mechanisms prevent fertilization. Habitat isolation (ecological isolation) occurs when populations occupy different habitats and don't encounter each other during mating season."},
+
+  // ===== UNIT 3: EVOLUTIONARY THEORIES =====
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"E",
+   q:"Darwin's theory of evolution by natural selection was published in:",
+   opts:["1809","1836","1859","1871"],
+   ans:2, exp:"Charles Darwin published 'On the Origin of Species by Means of Natural Selection' on November 24, 1859."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"E",
+   q:"Lamarck's theory of evolution is based on the principle of:",
+   opts:["Natural selection","Use and disuse of organs","Mutation","Genetic drift"],
+   ans:1, exp:"Lamarck proposed two laws: Use and Disuse (organs develop through use and weaken through disuse) and Inheritance of Acquired Characters (these changes are passed to offspring)."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"M",
+   q:"The Modern Synthetic Theory of Evolution (Neo-Darwinism) was developed primarily by:",
+   opts:["Darwin alone","Darwin and Wallace","Fisher, Haldane, Wright, Mayr, and Dobzhansky","Lamarck and Darwin"],
+   ans:2, exp:"The Modern Synthesis combined Darwinian natural selection with Mendelian genetics. Key architects: R.A. Fisher, J.B.S. Haldane, Sewall Wright (genetics) and E. Mayr, T. Dobzhansky (biology)."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"M",
+   q:"Hardy-Weinberg equilibrium states that allele frequencies remain constant when:",
+   opts:["Population is small and isolated","Natural selection, mutation, genetic drift, and migration are absent; random mating occurs","Random mating is absent","Genetic drift operates"],
+   ans:1, exp:"Hardy-Weinberg Law (1908): Allele and genotype frequencies in a large, randomly mating population remain stable unless acted upon by natural selection, mutation, genetic drift, or migration."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"H",
+   q:"The principle of '<em>Inheritance of Acquired Characters</em>' was experimentally disproved by:",
+   opts:["Mendel","Weismann","Darwin","Morgan"],
+   ans:1, exp:"August Weismann disproved Lamarckism experimentally (1889) by cutting tails of mice for 22 generations; offspring always had normal tails. He proposed the 'Barrier theory' — soma cannot influence germplasm."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"H",
+   q:"The Neutral Theory of Molecular Evolution was proposed by:",
+   opts:["Charles Darwin","Motoo Kimura","Sewall Wright","R.A. Fisher"],
+   ans:1, exp:"Motoo Kimura (1968) proposed the Neutral Theory, stating that most genetic mutations at the molecular level are selectively neutral and their fate is determined by random genetic drift."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"M",
+   q:"Which mechanism of evolution increases the frequency of favorable alleles through differential reproduction?",
+   opts:["Genetic drift","Gene flow","Natural selection","Mutation"],
+   ans:2, exp:"Natural selection increases the frequency of alleles that improve reproductive success (fitness). Over generations, favorable alleles become more common in the population."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"E",
+   q:"Alfred Russel Wallace independently discovered natural selection and sent his paper to Darwin in:",
+   opts:["1850","1858","1859","1871"],
+   ans:1, exp:"In 1858, Wallace sent his paper on natural selection to Darwin from Ternate, Indonesia. Both presented their ideas jointly at the Linnaean Society on July 1, 1858."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"H",
+   q:"Punctuated Equilibrium theory was proposed by:",
+   opts:["Darwin & Wallace","Eldredge & Gould","Kimura & Ohta","Simpson & Mayr"],
+   ans:1, exp:"Niles Eldredge and Stephen Jay Gould (1972) proposed Punctuated Equilibrium: evolution proceeds through long periods of stasis (equilibrium) punctuated by rapid speciation events."},
+
+  {unit:3, unitTitle:"Evolutionary Theories", diff:"M",
+   q:"The bottleneck effect is a form of:",
+   opts:["Natural selection","Sexual selection","Genetic drift","Gene flow"],
+   ans:2, exp:"The bottleneck effect is a type of genetic drift where a dramatic reduction in population size leads to a random (not adaptive) change in allele frequencies."},
+
+  // ===== UNIT 4: NATURAL SELECTION & ADAPTATION =====
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"E",
+   q:"Industrial melanism in <em>Biston betularia</em> (peppered moth) is a classic example of:",
+   opts:["Disruptive selection","Directional selection","Stabilizing selection","Sexual selection"],
+   ans:1, exp:"Industrial melanism is directional selection: pollution darkened tree bark, making dark moths fitter (better camouflaged from predators). Dark allele frequency increased directionally."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"M",
+   q:"Which type of natural selection favors intermediate phenotypes and eliminates extremes?",
+   opts:["Directional selection","Stabilizing selection","Disruptive selection","Sexual selection"],
+   ans:1, exp:"Stabilizing selection reduces variation by favoring intermediate phenotypes. Classic example: human birth weight — very low or very high birth weights have higher mortality."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"H",
+   q:"Mimicry in which a harmless species resembles a harmful/unpalatable species is called:",
+   opts:["Müllerian mimicry","Batesian mimicry","Aggressive mimicry","Automimicry"],
+   ans:1, exp:"Batesian mimicry (Henry Walter Bates, 1862): a palatable/harmless mimic resembles an unpalatable/dangerous model. Predators who learned to avoid the model also avoid the mimic."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"H",
+   q:"Müllerian mimicry differs from Batesian mimicry in that:",
+   opts:["Only the model is unpalatable","Both model and mimic are unpalatable","Only the mimic is unpalatable","Neither is unpalatable"],
+   ans:1, exp:"In Müllerian mimicry (Fritz Müller, 1879), two or more unpalatable species share warning coloration — mutually benefiting by faster predator learning through shared resemblance."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"M",
+   q:"The <em>fitness</em> of an organism in evolutionary biology refers to:",
+   opts:["Physical strength and agility","Reproductive success relative to other individuals","Ability to survive extreme conditions","Metabolic efficiency"],
+   ans:1, exp:"Darwinian fitness is a measure of reproductive success — specifically the relative contribution of an individual's genotype to the next generation's gene pool."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"E",
+   q:"Darwin's finches in the Galápagos Islands are a classic example of:",
+   opts:["Convergent evolution","Parallel evolution","Adaptive radiation","Industrial melanism"],
+   ans:2, exp:"Darwin's finches demonstrate adaptive radiation — a single ancestral finch colonized the Galápagos and diversified into ~15 species with different beak shapes adapted to different food sources."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"M",
+   q:"The evolution of similar features in distantly related organisms due to similar selective pressures is called:",
+   opts:["Divergent evolution","Convergent evolution","Parallel evolution","Co-evolution"],
+   ans:1, exp:"Convergent evolution produces analogous structures in distantly related taxa through similar selective pressures. Example: wings in birds, bats, and insects; streamlined bodies in dolphins and sharks."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"H",
+   q:"Sickle-cell anemia provides a classic example of which evolutionary concept?",
+   opts:["Directional selection","Frequency-dependent selection","Heterozygote advantage (Balancing selection)","Genetic drift"],
+   ans:2, exp:"Heterozygotes (HbA/HbS) have a selective advantage in malaria-endemic regions — they have some protection against malaria while not suffering full sickle-cell disease. This is balancing selection."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"M",
+   q:"The Founder Effect occurs when:",
+   opts:["A large population moves to a new area","A small group from a population colonizes a new area","Two populations merge","A population undergoes mass extinction"],
+   ans:1, exp:"The Founder Effect (Mayr, 1954): when a small number of individuals establish a new population, the new population may have reduced and non-representative genetic variation compared to the original."},
+
+  {unit:4, unitTitle:"Natural Selection & Adaptation", diff:"H",
+   q:"Which concept explains that evolution is more rapid in small, isolated peripheral populations?",
+   opts:["Allopatric speciation","Peripatric speciation","Sympatric speciation","Parapatric speciation"],
+   ans:1, exp:"Peripatric speciation (Mayr): new species form at the edge/periphery of a range in small, isolated populations where genetic drift and founder effects accelerate divergence."},
+
+  // ===== UNIT 5: SPECIATION =====
+  {unit:5, unitTitle:"Speciation", diff:"E",
+   q:"Speciation that occurs when populations are geographically separated is called:",
+   opts:["Sympatric speciation","Allopatric speciation","Parapatric speciation","Peripatric speciation"],
+   ans:1, exp:"Allopatric speciation occurs when a geographic barrier (river, mountain, ocean) separates a population, preventing gene flow, and allows divergence into separate species."},
+
+  {unit:5, unitTitle:"Speciation", diff:"M",
+   q:"Sympatric speciation occurs when new species arise:",
+   opts:["From geographically isolated populations","Within the same geographic area without prior isolation","From peripheral isolated populations","Along a gradient of environmental change"],
+   ans:1, exp:"Sympatric speciation: new species evolve within the same geographic area. Common mechanisms include polyploidy (in plants), habitat specialization, and assortative mating."},
+
+  {unit:5, unitTitle:"Speciation", diff:"H",
+   q:"Polyploidy as a mechanism of speciation is most common in:",
+   opts:["Mammals","Birds","Plants","Insects"],
+   ans:2, exp:"Polyploidy (multiplication of the entire genome) is a major speciation mechanism in plants. About 50–70% of flowering plant species have polyploid origins. It is rare in animals."},
+
+  {unit:5, unitTitle:"Speciation", diff:"M",
+   q:"Allopolyploidy results from:",
+   opts:["Duplication of chromosomes within one species","Hybridization between two species followed by chromosome doubling","Inbreeding within a single species","Random mutation of single genes"],
+   ans:1, exp:"Allopolyploidy: a hybrid between two different species undergoes chromosome doubling, creating a reproductively isolated new species (e.g., Triticum aestivum — bread wheat, 6n = 42)."},
+
+  {unit:5, unitTitle:"Speciation", diff:"H",
+   q:"Which of the following is an example of parapatric speciation?",
+   opts:["Hawaiian honeycreepers","Darwin's finches","Grass Anthoxanthum odoratum in contaminated mine regions","Apple maggot fly Rhagoletis"],
+   ans:2, exp:"Parapatric speciation occurs along a geographic gradient with gene flow. Anthoxanthum odoratum evolved metal-tolerant ecotypes at mine boundaries — selection is strong enough to overcome gene flow."},
+
+  {unit:5, unitTitle:"Speciation", diff:"M",
+   q:"Pre-mating isolating mechanisms include all EXCEPT:",
+   opts:["Ecological isolation","Temporal isolation","Behavioral isolation","Hybrid inviability"],
+   ans:3, exp:"Hybrid inviability is a post-zygotic mechanism (occurs after fertilization — the hybrid embryo doesn't survive). Pre-zygotic mechanisms prevent fertilization from occurring."},
+
+  {unit:5, unitTitle:"Speciation", diff:"E",
+   q:"A hybridization zone where two species interbreed is called:",
+   opts:["Hybrid swarm","Contact zone (hybrid zone)","Gene pool","Deme"],
+   ans:1, exp:"A hybrid zone (contact zone) is a region where two differentiated populations meet and produce hybrids. It can be stable, expand, or collapse depending on hybrid fitness."},
+
+  {unit:5, unitTitle:"Speciation", diff:"H",
+   q:"The concept of <em>Genetic Revolution</em> in speciation was proposed by:",
+   opts:["Darwin","Mayr","Dobzhansky","Stebbins"],
+   ans:1, exp:"Ernst Mayr proposed the concept of Genetic Revolution, suggesting that speciation in small peripheral founder populations involves major genetic reorganization, not just allele frequency changes."},
+
+  {unit:5, unitTitle:"Speciation", diff:"M",
+   q:"Which example best demonstrates sympatric speciation via host-race formation?",
+   opts:["Galápagos finches","Apple maggot fly (Rhagoletis pomonella)","African cichlids via allopatry","Anthoxanthum ecotypes"],
+   ans:1, exp:"Rhagoletis pomonella shifted from hawthorn to apple trees in the 1800s, with apple-feeding populations becoming reproductively isolated from hawthorn populations — a classic incipient sympatric speciation."},
+
+  {unit:5, unitTitle:"Speciation", diff:"H",
+   q:"Dobzhansky-Muller incompatibilities refer to:",
+   opts:["Physical barriers to mating","Post-zygotic isolation due to incompatible gene combinations that evolved independently in separate lineages","Behavioral differences preventing mating","Ecological differences between species"],
+   ans:1, exp:"Dobzhansky-Muller model: independently evolving lineages accumulate gene combinations that interact negatively when brought together in hybrids, causing hybrid sterility/inviability — a key post-zygotic mechanism."},
+
+  // ===== UNIT 6: PHYLOGENY & MOLECULAR EVOLUTION =====
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"E",
+   q:"A phylogenetic tree that shows the evolutionary relationships between organisms is also called a:",
+   opts:["Dendrogram","Cladogram","Both dendrogram and phylogram","Phylogram"],
+   ans:2, exp:"Cladograms show branching relationships. Phylograms include branch lengths proportional to evolutionary change. Both are types of phylogenetic trees (dendrograms)."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"M",
+   q:"The concept of <em>Molecular Clock</em> is based on the assumption that:",
+   opts:["Mutations occur only under environmental pressure","Molecular mutations accumulate at a relatively constant rate over time","All mutations are advantageous","Gene flow is constant"],
+   ans:1, exp:"The Molecular Clock hypothesis (Zuckerkandl & Pauling, 1965): neutral molecular mutations accumulate at a roughly constant rate, allowing estimation of divergence times between species."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"M",
+   q:"The most ancient phylogenetic marker used to study evolutionary relationships between kingdoms is:",
+   opts:["Cytochrome b","16S/18S rRNA gene","Mitochondrial DNA","COX1 gene"],
+   ans:1, exp:"16S (prokaryotes) and 18S (eukaryotes) rRNA genes are highly conserved yet contain variable regions, making them the standard for deep phylogenetic analysis. Carl Woese used 16S rRNA to establish the three domains of life."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"H",
+   q:"The three domains of life were established by Carl Woese based on:",
+   opts:["Morphological characters","16S rRNA sequence analysis","Protein structure comparison","Fossil record"],
+   ans:1, exp:"Carl Woese (1977) analyzed 16S rRNA sequences and established the three-domain system: Bacteria, Archaea, and Eukarya, revolutionizing our understanding of the tree of life."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"M",
+   q:"In cladistics, a shared derived character (possessed by a common ancestor and its descendants) is called:",
+   opts:["Plesiomorphy","Synapomorphy","Apomorphy","Homoplasy"],
+   ans:1, exp:"A synapomorphy is a shared derived character that unites a monophyletic group (clade). Plesiomorphies are ancestral characters. Synapomorphies are the basis of cladistic classification."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"H",
+   q:"Convergent evolution at the molecular level (same mutation in unrelated lineages) is called:",
+   opts:["Parallelism","Homoplasy","Synapomorphy","Plesiomorphy"],
+   ans:1, exp:"Homoplasy refers to similarity not due to common ancestry. At the molecular level, homoplasy includes parallel mutations and convergent evolution — a challenge for phylogenetic reconstruction."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"E",
+   q:"DNA barcoding uses which gene as the primary marker for animal species identification?",
+   opts:["16S rRNA","rbcL","COX1 (Cytochrome c oxidase subunit I)","ITS region"],
+   ans:2, exp:"COX1 (cytochrome oxidase subunit I) is the standard DNA barcode for animals. The BOLD (Barcode of Life Data) system uses ~650 bp of COX1 to identify animal species."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"H",
+   q:"The evolutionary concept that new functions arise from duplication and subsequent divergence of genes is called:",
+   opts:["Genetic drift","Gene duplication and subfunctionalization","Neutral evolution","Adaptive radiation"],
+   ans:1, exp:"Gene duplication creates redundant copies free to diverge. One copy retains the original function while the duplicate may acquire new functions (neofunctionalization) or share ancestral functions (subfunctionalization)."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"M",
+   q:"Maximum Parsimony in phylogenetics means selecting the tree that:",
+   opts:["Has the maximum number of branches","Requires the fewest evolutionary changes to explain observed data","Is based purely on molecular data","Uses the most fossil evidence"],
+   ans:1, exp:"Maximum Parsimony selects the phylogenetic tree requiring the minimum number of character state changes (mutations, morphological changes) — the simplest explanation for observed data."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"H",
+   q:"PAUP (Phylogenetic Analysis Using Parsimony) is a software used for:",
+   opts:["DNA sequencing","Constructing phylogenetic trees","Protein structure prediction","Population genetics analysis"],
+   ans:1, exp:"PAUP* (David Swofford) is a comprehensive phylogenetics software for parsimony, likelihood, and distance-based phylogenetic tree construction and statistical testing."},
+
+  {unit:6, unitTitle:"Phylogeny & Molecular Evolution", diff:"M",
+   q:"Which of these provides evidence for evolution at the molecular level?",
+   opts:["Vestigial structures","Comparative embryology","Cytochrome c protein sequence similarities across species","Fossil record"],
+   ans:2, exp:"Cytochrome c is a highly conserved protein. Sequence comparison across species reveals degrees of relatedness — humans and chimpanzees have identical cytochrome c, while humans and yeast differ in ~45 amino acids."}
+];
+
+// ===========================
+// State
+// ===========================
+let scores = { correct: 0, wrong: 0, total: questions.length };
+let answered = new Set();
+let currentFilter = 'all';
+
+// ===========================
+// Build UI
+// ===========================
+function buildQuiz(filter = 'all') {
+  const area = document.getElementById('quizArea');
+  area.innerHTML = '';
+
+  // Group by unit
+  const units = {};
+  questions.forEach((q, i) => {
+    if (filter !== 'all' && q.diff !== filter) return;
+    if (!units[q.unit]) units[q.unit] = { title: q.unitTitle, qs: [] };
+    units[q.unit].qs.push({ ...q, origIdx: i });
+  });
+
+  Object.entries(units).forEach(([unitNum, data]) => {
+    const sec = document.createElement('div');
+    sec.className = 'unit-section';
+    sec.innerHTML = `<div class="unit-header">
+      <span class="unit-num">Unit ${unitNum}</span>
+      <span class="unit-title">${data.title}</span>
+    </div>`;
+
+    data.qs.forEach(({ origIdx: i, q, opts, diff, ans, exp }) => {
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      card.id = `card-${i}`;
+
+      if (answered.has(i)) {
+        const wasCorrect = answered.has(`c${i}`);
+        card.classList.add(wasCorrect ? 'answered-correct' : 'answered-wrong');
+      }
+
+      const diffLabel = diff === 'H' ? 'Hard' : diff === 'M' ? 'Medium' : 'Easy';
+
+      let optsHtml = opts.map((o, oi) => {
+        let cls = '';
+        if (answered.has(i)) {
+          if (oi === ans) cls = 'correct';
+          else if (answered.has(`w${i}`) && oi === answered.get?.(`chosen${i}`) ) cls = 'wrong';
+          else cls = 'dimmed';
+        }
+        const keys = ['A','B','C','D'];
+        return `<button class="opt-btn ${cls}" onclick="checkAnswer(${i},${oi},${ans})" id="opt-${i}-${oi}" ${answered.has(i)?'disabled':''}>
+          <span class="opt-key">${keys[oi]}</span>${o}
+        </button>`;
+      }).join('');
+
+      const expDisplay = answered.has(i) ? 'show' : '';
+      card.innerHTML = `
+        <div class="q-head">
+          <span class="q-num">Q${i+1}</span>
+          <div class="q-text">${q}</div>
+          <span class="q-difficulty diff-${diff}">${diffLabel}</span>
+        </div>
+        <div class="options-grid">${optsHtml}</div>
+        <div class="explanation ${expDisplay}" id="exp-${i}"><strong>Explanation:</strong> ${exp}</div>
+      `;
+      sec.appendChild(card);
+    });
+    area.appendChild(sec);
+  });
+}
+
+// ===========================
+// Check Answer
+// ===========================
+let bannerTimer;
+function checkAnswer(qIdx, chosen, correct) {
+  if (answered.has(qIdx)) return;
+  answered.add(qIdx);
+
+  const isCorrect = chosen === correct;
+  if (isCorrect) {
+    scores.correct++;
+    answered.add(`c${qIdx}`);
+    showBanner('✓ Correct!', 'correct');
+  } else {
+    scores.wrong++;
+    answered.add(`w${qIdx}`);
+    showBanner('✗ Incorrect', 'wrong');
+  }
+
+  // Style options
+  const keys = ['A','B','C','D'];
+  [0,1,2,3].forEach(oi => {
+    const btn = document.getElementById(`opt-${qIdx}-${oi}`);
+    if (!btn) return;
+    btn.disabled = true;
+    if (oi === correct) btn.className = 'opt-btn correct';
+    else if (oi === chosen && !isCorrect) btn.className = 'opt-btn wrong';
+    else btn.className = 'opt-btn dimmed';
+  });
+
+  // Show explanation
+  const expEl = document.getElementById(`exp-${qIdx}`);
+  if (expEl) expEl.classList.add('show');
+
+  // Card border
+  const card = document.getElementById(`card-${qIdx}`);
+  if (card) card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  updateScore();
+
+  // Check if all answered
+  if (answered.size >= questions.length * 1.5) {
+    // rough check — answered set has extra entries
+    const realAnswered = [...answered].filter(x => typeof x === 'number').length;
+    if (realAnswered >= questions.length) setTimeout(showFinalResult, 600);
+  }
+  // Check answered count
+  const realAnswered = [...answered].filter(x => typeof x === 'number').length;
+  if (realAnswered >= questions.length) setTimeout(showFinalResult, 600);
+}
+
+function showBanner(msg, type) {
+  const b = document.getElementById('resultBanner');
+  b.textContent = msg;
+  b.className = `result-banner ${type}`;
+  b.style.display = 'block';
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(() => { b.style.display = 'none'; }, 1600);
+}
+
+// ===========================
+// Score updates
+// ===========================
+function updateScore() {
+  const realAnswered = [...answered].filter(x => typeof x === 'number').length;
+  const pct = Math.round((realAnswered / questions.length) * 100);
+
+  document.getElementById('scoreDisplay').innerHTML = `${scores.correct}<span>/${questions.length}</span>`;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('correctCount').textContent = scores.correct + ' Correct';
+  document.getElementById('wrongCount').textContent = scores.wrong + ' Wrong';
+  document.getElementById('skipCount').textContent = (questions.length - realAnswered) + ' Remaining';
+  document.getElementById('attemptedStat').textContent = realAnswered;
+}
+
+// ===========================
+// Filter
+// ===========================
+function filterDiff(diff, btn) {
+  currentFilter = diff;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz(diff);
+}
+
+// ===========================
+// Reset
+// ===========================
+function resetAll() {
+  answered.clear();
+  scores = { correct: 0, wrong: 0, total: questions.length };
+  updateScore();
+  buildQuiz(currentFilter);
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+// ===========================
+// Final Result
+// ===========================
+function showFinalResult() {
+  const pct = Math.round((scores.correct / questions.length) * 100);
+  let grade, color, msg;
+  if (pct >= 90) { grade = 'A+'; color = '#3ecf8e'; msg = 'Outstanding! You have mastered Biosystematics & Evolutionary Biology. You are fully exam-ready!'; }
+  else if (pct >= 75) { grade = 'A'; color = '#e6a817'; msg = 'Excellent performance! Minor revision of weak areas will ensure a top rank in your exam.'; }
+  else if (pct >= 60) { grade = 'B'; color = '#7c6af7'; msg = 'Good effort! Revise important theories and definitions. You are on the right track.'; }
+  else if (pct >= 45) { grade = 'C'; color = '#f6ad55'; msg = 'Fair attempt. Focus on key concepts: natural selection, speciation, Hardy-Weinberg, and species concepts.'; }
+  else { grade = 'D'; color = '#f56565'; msg = 'Keep practicing! Go through the explanations carefully and attempt again. Consistent revision is key.'; }
+
+  document.getElementById('modalGrade').style.color = color;
+  document.getElementById('modalGrade').textContent = grade;
+  document.getElementById('modalScoreText').textContent = `${scores.correct} / ${questions.length} correct — ${pct}%`;
+  document.getElementById('modalMsg').textContent = msg;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+// ===========================
+// Init
+// ===========================
+buildQuiz();
+updateScore();
+</script>
+</body>
+</html>
